@@ -1,3 +1,5 @@
+![Build and Deploy to GKE](https://github.com/mrkaleslie/devops-test/workflows/Build%20and%20Deploy%20to%20GKE/badge.svg?branch=master)
+
 # DevOps Engineer - Technical Test	
 We think infrastructure is best represented as code, and provisioning of resources should be automated as much as possible.	
 
