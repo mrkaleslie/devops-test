@@ -1,0 +1,43 @@
+name: Build and Deploy to GKE
+
+on:
+  push:
+    branches: master
+
+env:
+  PROJECT_ID: my-project-devopstest-290816
+  GKE_CLUSTER: devopstest-cd
+  GKE_ZONE: us-east1-d
+  DEPLOYMENT_NAME: gke-deploy
+  IMAGE: node
+
+jobs:
+  publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@0.1.3
+      with:
+        service_account_key: ${{ secrets.GKE_SA_KEY }}
+        project_id: $PROJECT_ID
+
+    - run: |-
+        gcloud --quiet auth configure-docker
+
+    - run: |-
+        gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+
+    - name: Build
+      run: |-
+        docker build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          .
+
+    - name: Publish
+      run: |-
+        docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
