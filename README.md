@@ -3,6 +3,7 @@
 # DevOps Engineer - Technical Test	
 We think infrastructure is best represented as code, and provisioning of resources should be automated as much as possible.	
 
+
  Your task is to create a CI build pipeline that deploys this web application to a load-balanced	
 environment. You are free to complete the test in a local environment (using tools like Vagrant and	
 Docker) or use any CI service, provisioning tool and cloud environment you feel comfortable with (we	
